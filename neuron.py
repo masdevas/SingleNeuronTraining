@@ -44,7 +44,6 @@ def gradient_cross_entropy(trained_weights, examples_set, index_example):
     return gradient_loss
 
 def update_trained_weights(trained_weights, gradient_loss, learning_rate):
-    print
     trained_weights += learning_rate * gradient_loss
 
 def stochastic_gradient_descent(trained_weights, training_set, learning_rate):
@@ -53,13 +52,13 @@ def stochastic_gradient_descent(trained_weights, training_set, learning_rate):
         update_trained_weights(trained_weights, gradient_loss, learning_rate)
 
 def do_train():
-    dimensions = [10, 10]
+    dimensions = [400, 40]
     name_datafile = 'neuron_data.txt'
     name_lossesfile = 'neuron_loss.txt'
-    count_training_examples = 100
-    count_tests_examples = 100
-    count_ages = 500
-    learning_rate = np.float128(0.002)
+    count_training_examples = 1000
+    count_tests_examples = 1000
+    count_ages = 1000
+    learning_rate = np.float128(0.0005)
     trained_weights = np.array([np.float128(0.5)] * len(dimensions))
     log_create(name_datafile)
     log_create(name_lossesfile)
@@ -73,6 +72,7 @@ def do_train():
         for number_age in range(count_ages):
             stochastic_gradient_descent(trained_weights, training_set, learning_rate)
             loss = cross_entropy(trained_weights, test_set, 0, len(test_set))
+            learning_rate *= 0.95
             log_losses.write(" Age " + str(number_age) + ", Loss " + str(loss) + \
                 " Weights " + str(trained_weights) + "\n")
 
